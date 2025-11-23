@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Data structure and Algorithms</title>
+  </head>
+  <body>
+    <script>
+      // This is a datastructure to store student names
+      const studentsDatabase = ["Alice", "Bob", "Charlie", "David", "Eve"];
+
+      // Linear search algorithm to find a specific student
+      function findStudent(studentsArray, findStudentName) {
+        for (let i = 0; i < studentsArray.length; i++) {
+          if (studentsArray[i] === findStudentName) {
+            console.log(`Found ${findStudentName}`);
+          }
+        }
+      }
+
+      findStudent(studentsDatabase, "Charlie");
+    </script>
+  </body>
+</html>

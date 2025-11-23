@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const unsortedArr = [1, 8, 5, 6, 4, 3, 2, 7];
+
+      function sortedArray(arr) {
+        // Bubble Sort Algorithm Implementation
+        for (let i = 0; i < arr.length - 1; i++) {
+          // Last i elements are already sorted
+          for (let j = 0; j < arr.length - i - 1; j++) {
+            const current = arr[j];
+            const next = arr[j + 1];
+
+            if (current > next) {
+              // Swap elements
+              [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
+            }
+          }
+        }
+        return arr;
+      }
+
+      console.log("Sorted array:", sortedArray(unsortedArr));
+    </script>
+  </body>
+</html>

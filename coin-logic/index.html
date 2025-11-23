@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Learning JS</title>
+    <style>
+      body {
+        background-color: #f0f0f0;
+        margin: 0;
+        min-height: 100vh;
+      }
+
+      button {
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        position: relative;
+        margin-top: 30rem;
+        margin-left: 30rem;
+      }
+
+      #coin-placeholder-container {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        font-size: 1.5rem;
+        font-weight: bold;
+        width: 150px;
+        height: 50px;
+        padding: 10px;
+        top: 10rem;
+        left: 30rem;
+      }
+
+      #coin-count {
+        font-size: 1rem;
+        font-weight: bold;
+      }
+
+      #coin-placeholder {
+        width: 50px;
+      }
+
+      #icon-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100px;
+        height: 100px;
+        transform: rotate(-37deg);
+        visibility: hidden;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      #coins {
+        margin-right: 5px;
+        width: 100px;
+        visibility: hidden;
+      }
+
+      /* A fresh coin created per click so animations don't conflict */
+      .flying-coin {
+        position: fixed;
+        width: 50px;
+        height: 50px;
+        pointer-events: none;
+        will-change: transform, opacity;
+        transform: translateZ(0);
+        z-index: 1000;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="coin-placeholder-container">
+      <img id="coin-placeholder" src="assets/coin-placeholder.png" alt="" />
+      <span id="coin-count">Count: 0</span>
+    </div>
+
+    <button>
+      <div id="icon-container">
+        <img id="coins" src="assets/coins.png" alt="" />
+      </div>
+      <span>Get Money</span>
+    </button>
+
+    <script>
+      // Animate a fresh coin per click so rapid clicks don't conflict
+      const button = document.querySelector("button");
+      const coinPlaceholder = document.getElementById("coin-placeholder");
+      const coinCount = document.getElementById("coin-count");
+      let count = 0;
+
+      function spawnFlyingCoin() {
+        const coin = document.createElement("img");
+        coin.src = "assets/coins.png";
+        coin.alt = "coin";
+        coin.className = "flying-coin";
+        document.body.appendChild(coin);
+
+        const startRect = button.getBoundingClientRect();
+        const endRect = coinPlaceholder.getBoundingClientRect();
+
+        const startX = startRect.left + startRect.width / 2;
+        const startY = startRect.top + startRect.height / 2;
+
+        const endX = endRect.left + endRect.width / 2;
+        const endY = endRect.top + endRect.height / 2;
+
+        // Position the coin at start (offset half coin size ~25px)
+        coin.style.left = `${startX - 25}px`;
+        coin.style.top = `${startY - 25}px`;
+
+        const dx = endX - startX;
+        const dy = endY - startY;
+
+        // Midpoint for a small arc
+        const midX = dx * 0.5;
+        const midY = dy * 0.5 - 120; // lift for arc
+
+        const anim = coin.animate(
+          [
+            {
+              transform: "translate(0px, 0px) scale(1)",
+              opacity: 1,
+              offset: 0,
+            },
+            {
+              transform: `translate(${midX}px, ${midY}px) scale(0.9)`,
+              opacity: 1,
+              offset: 0.6,
+            },
+            {
+              transform: `translate(${dx}px, ${dy}px) scale(0.8)`,
+              opacity: 0.9,
+              offset: 1,
+            },
+          ],
+          {
+            duration: 800,
+            easing: "cubic-bezier(0.22, 1, 0.36, 1)",
+            fill: "forwards",
+          }
+        );
+
+        return new Promise((resolve) => {
+          anim.onfinish = () => {
+            coin.remove();
+            resolve();
+          };
+          anim.oncancel = () => {
+            coin.remove();
+            resolve();
+          };
+        });
+      }
+
+      button.addEventListener("click", () => {
+        spawnFlyingCoin().then(() => {
+          count += 10;
+          coinCount.textContent = `Count: ${count}`;
+        });
+      });
+    </script>
+  </body>
+</html>

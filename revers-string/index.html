@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reverse String</title>
+  </head>
+  <body>
+    <script>
+      function capitalizeLetters(str) {
+        let words = str.split(" "); // Convert to array ["sattar", "rahim"]
+        words.map((element, index) => {
+          words[index] = element.charAt(0).toUpperCase() + element.slice(1);
+        });
+
+        return words.join(" "); // Convert back to string "Sattar Rahim"
+      }
+
+      // console.log(capitalizeLetters("sattar rahim"));
+
+      function twoSum(arr, target) {
+        let map = new Map();
+
+        for (let i = 0; i < arr.length; i++) {
+          let complement = target - arr[i];
+
+          if (map.has(complement)) {
+            return [map.get(complement), i];
+          }
+
+          map.set(arr[i], i);
+        }
+        return [];
+      }
+      console.log(twoSum([2, 7, 11, 15], 9));
+    </script>
+  </body>
+</html>
