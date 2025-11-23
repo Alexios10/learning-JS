@@ -11,14 +11,15 @@
 
       function sortedArray(arr) {
         // Bubble Sort Algorithm Implementation
+        // Her starter vi med å iterere gjennom hele arrayet flere ganger for å sikre at alle elementene blir sortert
         for (let i = 0; i < arr.length - 1; i++) {
-          // Last i elements are already sorted
+          // Her sammenligner vi hvert element med det neste elementet i arrayet
           for (let j = 0; j < arr.length - i - 1; j++) {
             const current = arr[j];
             const next = arr[j + 1];
 
             if (current > next) {
-              // Swap elements
+              // Hvis det nåværende elementet er større enn det neste, bytter vi plass på dem
               [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
             }
           }
